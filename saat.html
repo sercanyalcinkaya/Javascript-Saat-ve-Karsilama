@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kodluyoruz Javascript Saat Ödevi</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+    />
+    <style>
+      body {
+        background-color: #1a1a1a;
+        color: #f8f9fa;
+      }
+      .clock {
+        font-size: 48px;
+        font-weight: bold;
+        margin: 20px 0;
+      }
+      .date {
+        font-size: 18px;
+        color: #adb5bd;
+      }
+    </style>
+  </head>
+  <body class="text-center py-5">
+    <img
+      src="https://cdn.sanity.io/images/9kdepi1d/production/65c832d202a503b15d99e628f4313782f3ef50db-300x62.png"
+      alt="Kodluyoruz"
+      class="rounded mb-4"
+    />
+
+    <div class="lead mb-2">
+      Merhaba, <strong><span id="myName">Misafir</span></strong
+      >! Hoş geldin!
+    </div>
+
+    <div id="myClock" class="clock">--:--:--</div>
+    <div id="myDate" class="date">—</div>
+
+    <p class="mt-4">
+      Kodluyoruz Frontend Web Development Patikası <br />
+      Javascript bölümü 1. ödevindesiniz.
+    </p>
+
+    <button id="changeName" class="btn btn-outline-light btn-sm mt-3">
+      Adı Değiştir
+    </button>
+
+    <script>
+      const NAME_KEY = "kodluyoruz:username";
+      const nameEl = document.getElementById("myName");
+      const clockEl = document.getElementById("myClock");
+      const dateEl = document.getElementById("myDate");
+
+      function askName() {
+        const input = prompt("Adınız nedir?");
+        if (input && input.trim()) {
+          localStorage.setItem(NAME_KEY, input.trim());
+          renderName();
+        }
+      }
+
+      function renderName() {
+        const name = localStorage.getItem(NAME_KEY) || "Misafir";
+        nameEl.textContent = name;
+      }
+
+      function showTime() {
+        const now = new Date();
+        clockEl.textContent = now.toLocaleTimeString("tr-TR", {
+          hour12: false,
+        });
+        dateEl.textContent = now.toLocaleDateString("tr-TR", {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
+      }
+
+      // ilk açılış
+      if (!localStorage.getItem(NAME_KEY)) askName();
+      renderName();
+      showTime();
+      setInterval(showTime, 1000);
+
+      document.getElementById("changeName").addEventListener("click", () => {
+        localStorage.removeItem(NAME_KEY);
+        askName();
+      });
+    </script>
+  </body>
+</html>
